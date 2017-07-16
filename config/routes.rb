@@ -1,4 +1,6 @@
 Rails.application.routes.draw do
+  resources :choices
+
   resources :patient_visits
 
   resources :drugs
