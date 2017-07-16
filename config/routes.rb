@@ -1,4 +1,6 @@
 Rails.application.routes.draw do
+  resources :doctors
+
   resources :questions
 
   resources :choices
