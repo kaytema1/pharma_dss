@@ -1,23 +1,34 @@
-<h1>Listing doctors</h1>
-
-<table>
+<%- model_class = Doctor -%>
+<div class="page-header">
+  <h1><%=t '.title', :default => Doctor %></h1>
+</div>
+<table class="table table-striped">
   <thead>
     <tr>
-      <th colspan="3"></th>
+      <th>ID</th>
+      <th><%= model_class.human_attribute_name(:created_at) %></th>
+      <th><%=t '.actions', :default => t("helpers.actions") %></th>
     </tr>
   </thead>
-
   <tbody>
     <% @doctors.each do |doctor| %>
       <tr>
-        <td><%= link_to 'Show', doctor %></td>
-        <td><%= link_to 'Edit', edit_doctor_path(doctor) %></td>
-        <td><%= link_to 'Destroy', doctor, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+        <td><%= doctor.id %></td>
+        <td><%=l doctor.created_at, format: :long %></td>
+        <td>
+          <%= link_to doctor_path(doctor), :class => 'btn btn-xs', :title => "#{ t('.show', :default => t('helpers.links.show')) }" do %>
+            <%= glyph 'info-sign' %>
+            <%= glyph 'pencil' %>
+          <%- end -%>
+          <%= link_to doctor_path(doctor), :method => :delete, :data => { :confirm => t('.confirm', :default => t("helpers.links.confirm", :default => 'Are you sure?')) }, :class => 'btn btn-xs', :title => "#{ t('.destroy', :default => t('helpers.links.destroy')) }" do %>
+            <%= glyph 'remove' %>
+          <%- end -%>
+        </td>
       </tr>
     <% end %>
   </tbody>
 </table>
 
-<br>
-
-<%= link_to 'New Doctor', new_doctor_path %>
+<%= link_to t('.new', :default => t("helpers.links.new")),
+            new_doctor_path,
+            :class => 'btn btn-primary' %>
