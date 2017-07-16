@@ -1,21 +1,16 @@
-<%= form_for(@patient_visit) do |f| %>
-  <% if @patient_visit.errors.any? %>
-    <div id="error_explanation">
-      <h2><%= pluralize(@patient_visit.errors.count, "error") %> prohibited this patient_visit from being saved:</h2>
-
-      <ul>
-      <% @patient_visit.errors.full_messages.each do |message| %>
-        <li><%= message %></li>
-      <% end %>
-      </ul>
+<%= form_for @patient_visit, :html => { :class => 'form-horizontal form-model' } do |f| %>
+  <div class="form-group">
+    <%= f.label :summary, :class => 'control-label col-md-2' %>
+    <div class="col-md-10">
+      <%= f.text_area :summary, :class => 'text-field form-control' %>
     </div>
-  <% end %>
-
-  <div class="field">
-    <%= f.label :summary %><br>
-    <%= f.text_area :summary %>
   </div>
-  <div class="actions">
-    <%= f.submit %>
+
+  <div class="form-group">
+    <div class='col-md-offset-2 col-md-10'>
+      <%= f.submit nil, :class => 'btn btn-primary' %>
+      <%= link_to t('.cancel', :default => t("helpers.links.cancel")),
+                  patient_visits_path, :class => 'btn btn-default' %>
+    </div>
   </div>
 <% end %>
