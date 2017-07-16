@@ -1,25 +1,16 @@
-<%= form_for(@choice) do |f| %>
-  <% if @choice.errors.any? %>
-    <div id="error_explanation">
-      <h2><%= pluralize(@choice.errors.count, "error") %> prohibited this choice from being saved:</h2>
-
-      <ul>
-      <% @choice.errors.full_messages.each do |message| %>
-        <li><%= message %></li>
-      <% end %>
-      </ul>
+<%= form_for @choice, :html => { :class => 'form-horizontal form-model' } do |f| %>
+  <div class="form-group">
+    <%= f.label :option, :class => 'control-label col-md-2' %>
+    <div class="col-md-10">
+      <%= f.text_field :option, :class => 'text-field form-control' %>
     </div>
-  <% end %>
+  </div>
 
-  <div class="field">
-    <%= f.label :option %><br>
-    <%= f.text_field :option %>
-  </div>
-  <div class="field">
-    <%= f.label :question_id %><br>
-    <%= f.text_field :question_id %>
-  </div>
-  <div class="actions">
-    <%= f.submit %>
+  <div class="form-group">
+    <div class='col-md-offset-2 col-md-10'>
+      <%= f.submit nil, :class => 'btn btn-primary' %>
+      <%= link_to t('.cancel', :default => t("helpers.links.cancel")),
+                  choices_path, :class => 'btn btn-default' %>
+    </div>
   </div>
 <% end %>
