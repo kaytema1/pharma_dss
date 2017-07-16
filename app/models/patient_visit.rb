@@ -3,4 +3,5 @@ class PatientVisit < ActiveRecord::Base
   has_one :prescription
   has_many :disease_conditions
   has_one :user
+  has_many :questions
 end
