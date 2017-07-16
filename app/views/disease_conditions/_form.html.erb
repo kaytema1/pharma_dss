@@ -1,0 +1,25 @@
+<%= form_for(@disease_condition) do |f| %>
+  <% if @disease_condition.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@disease_condition.errors.count, "error") %> prohibited this disease_condition from being saved:</h2>
+
+      <ul>
+      <% @disease_condition.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= f.label :icd_10 %><br>
+    <%= f.text_field :icd_10 %>
+  </div>
+  <div class="field">
+    <%= f.label :patient_visit_id %><br>
+    <%= f.text_field :patient_visit_id %>
+  </div>
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>

@@ -1,4 +1,6 @@
 Rails.application.routes.draw do
+  resources :disease_conditions
+
   resources :doctors
 
   resources :questions
