@@ -1,39 +1,34 @@
-<p id="notice"><%= notice %></p>
+<%- model_class = Patient -%>
+<div class="page-header">
+  <h1><%=t '.title', :default => Patient %></h1>
+</div>
 
-<p>
-  <strong>Folder number:</strong>
-  <%= @patient.folder_number %>
-</p>
+<div class="fieldset">
+  <dl>
+      <dt class="label label-default"><%= model_class.human_attribute_name(:folder_number) %></dt>
+      <dd><pre class="prettyprint"><%= @patient.folder_number %></pre></dd>
+      <dt class="label label-default"><%= model_class.human_attribute_name(:first_name) %></dt>
+      <dd><pre class="prettyprint"><%= @patient.first_name %></pre></dd>
+      <dt class="label label-default"><%= model_class.human_attribute_name(:last_name) %></dt>
+      <dd><pre class="prettyprint"><%= @patient.last_name %></pre></dd>
+      <dt class="label label-default"><%= model_class.human_attribute_name(:date_of_birth) %></dt>
+      <dd><pre class="prettyprint"><%= @patient.date_of_birth %></pre></dd>
+      <dt class="label label-default"><%= model_class.human_attribute_name(:gender) %></dt>
+      <dd><pre class="prettyprint"><%= @patient.gender %></pre></dd>
+      <dt class="label label-default"><%= model_class.human_attribute_name(:address) %></dt>
+      <dd><pre class="prettyprint"><%= @patient.address %></pre></dd>
+  </dl>
+</div>
 
-<p>
-  <strong>First name:</strong>
-  <%= @patient.first_name %>
-</p>
+<div class="form-group">
+  <%= link_to t('.back', :default => t("helpers.links.back")),
+              patients_path, :class => 'btn btn-default'  %>
+  <%= link_to t('.edit', :default => t("helpers.links.edit")),
+              edit_patient_path(@patient), :class => 'btn btn-default' %>
+  <%= link_to t('.destroy', :default => t("helpers.links.destroy")),
+              patient_path(@patient),
+              :method => 'delete',
+              :data => { :confirm => t('.confirm', :default => t("helpers.links.confirm", :default => 'Are you sure?')) },
+              :class => 'btn btn-danger' %>
+</div>
 
-<p>
-  <strong>Last name:</strong>
-  <%= @patient.last_name %>
-</p>
-
-<p>
-  <strong>Date of birth:</strong>
-  <%= @patient.date_of_birth %>
-</p>
-
-<p>
-  <strong>Gender:</strong>
-  <%= @patient.gender %>
-</p>
-
-<p>
-  <strong>Address:</strong>
-  <%= @patient.address %>
-</p>
-
-<p>
-  <strong>Patient visit:</strong>
-  <%= @patient.patient_visit %>
-</p>
-
-<%= link_to 'Edit', edit_patient_path(@patient) %> |
-<%= link_to 'Back', patients_path %>
