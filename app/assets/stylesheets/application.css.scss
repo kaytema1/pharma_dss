@@ -12,12 +12,18 @@
 *
 *= require_tree .
 *= require_self
+*= require material
+*= require material_icons
+*= require bootstrap-multiselect
 */
 @import "bootstrap_configuration";
 
-@import "bootstrap-sprockets";
+// import bootstrap-sprockets before bootstrap if using bootstrap >= 3.2
+@import 'bootstrap-sprockets';
+@import 'bootstrap';
+@import 'bootstrap-datetimepicker';
+@import 'bootstrap/glyphicons';
 
-@import "bootstrap";
 
 //->Prelang (ui_framework:twitter_bootstrap)
 
@@ -34,4 +40,37 @@
 //->Prelang (user_login:devise)
 .form-user {
   max-width: 450px;
+}
+
+.nav > li > a {
+
+    padding: 0px 24px;
+
+}
+
+
+.nav-pills > li.active > a, .nav-pills > li.active > a:hover, .nav-pills > li.active > a:focus {
+    background-color: #FFF;
+    border-bottom: solid 2px rgb(63, 81, 181);
+    color: black;
+}
+.nav-pills > li > a {
+    border-radius: 0px;
+}
+
+.next {
+  float: right;
+}
+
+.previous {
+  float: left;
+}
+
+.tab-pane > .col-md-12 {
+  padding: 40px 20px 10px;
+
+}
+
+.tab-pane .dropdown-menu {
+  display: block !important;
 }

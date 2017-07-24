@@ -1,46 +1,51 @@
-<%= form_for @patient, :html => { :class => 'form-horizontal form-model' } do |f| %>
-  <div class="form-group">
-    <%= f.label :folder_number, :class => 'control-label col-md-2' %>
-    <div class="col-md-10">
-      <%= f.text_field :folder_number, :class => 'text-field form-control' %>
-    </div>
-  </div>
-  <div class="form-group">
-    <%= f.label :first_name, :class => 'control-label col-md-2' %>
-    <div class="col-md-10">
-      <%= f.text_field :first_name, :class => 'text-field form-control' %>
-    </div>
-  </div>
-  <div class="form-group">
-    <%= f.label :last_name, :class => 'control-label col-md-2' %>
-    <div class="col-md-10">
-      <%= f.text_field :last_name, :class => 'text-field form-control' %>
-    </div>
-  </div>
-  <div class="form-group">
-    <%= f.label :date_of_birth, :class => 'control-label col-md-2' %>
-    <div class="col-md-10">
-      <%= f.text_field :date_of_birth, :class => 'text-field form-control' %>
-    </div>
-  </div>
-  <div class="form-group">
-    <%= f.label :gender, :class => 'control-label col-md-2' %>
-    <div class="col-md-10">
-      <%= f.text_field :gender, :class => 'text-field form-control' %>
-    </div>
-  </div>
-  <div class="form-group">
-    <%= f.label :address, :class => 'control-label col-md-2' %>
-    <div class="col-md-10">
-      <%= f.text_field :address, :class => 'text-field form-control' %>
-    </div>
-  </div>
+<%= form_for @patient, :html => { :class => 'form-horizontal' } do |f| %>
+  <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+    <%= f.text_field :folder_number, :class => 'mdl-textfield__input' %>
+      <%= f.label :folder_number, :class => 'mdl-textfield__label' %>
 
-  <div class="form-group">
-    <div class='col-md-offset-2 col-md-10'>
-      <%= f.submit nil, :class => 'btn btn-primary' %>
-      <%= link_to t('.cancel', :default => t("helpers.links.cancel")),
-                  patients_path, :class => 'btn btn-default' %>
-    </div>
   </div>
+  <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+    <%= f.label :first_name, :class => 'mdl-textfield__label' %>
+
+      <%= f.text_field :first_name, :class => 'mdl-textfield__input' %>
+
+  </div>
+  <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+    <%= f.label :last_name, :class => 'mdl-textfield__label' %>
+
+      <%= f.text_field :last_name, :class => 'mdl-textfield__input' %>
+
+  </div>
+  <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+    <%= f.label :date_of_birth, :class => 'mdl-textfield__label' %>
+
+      <%= f.text_field :date_of_birth, :class => 'date mdl-textfield__input' %>
+
+  </div>
+  <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+
+    <%= f.label :gender, :class => 'mdl-textfield__label' %>
+
+  <div style="padding-top: 5px;" class="col-md-5 col-md-offset-1">
+    <%= f.select(:gender, options_for_select([['MALE','MALE'],['FEMALE','FEMALE']]),{required: 'true', autofocus: 'true', class: 'form-control'} )%>
+</div>
+  </div>
+  <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+    <%= f.label :address, :class => 'mdl-textfield__label' %>
+
+      <%= f.text_field :address, :class => 'mdl-textfield__input' %>
+
+  </div>
+<br />
+<br />
+<br />
+  <div style="text-align: center" class="col-md-12">
+    <%= f.submit "Save & Procced", :class => 'mdl-button mdl-js-button mdl-button--raised mdl-button--colored' %>
+</div>
+<!--div style="text-align: center"  class="col-md-6">
+
+      <%= link_to t('.cancel', :default => t("helpers.links.cancel")),
+                  new_patient_path, :class => 'mdl-button mdl-js-button mdl-button--raised' %>
+
+</div-->
 <% end %>

@@ -14,5 +14,28 @@
 //= require jquery_ujs
 //= require turbolinks
 //= require bootstrap
-
+//= require bootstrap-sprockets
+//= require moment
+//= require bootstrap-datetimepicker
+//= require material
+//= require jquery-bootstrapwizard
+//= require bootstrap-multiselect
 //= require_tree .
+
+
+
+$(document).ready(function() {
+
+  $(".table").dataTable();
+
+  $('#rootwizard').bootstrapWizard({onTabShow: function(tab, navigation, index) {
+    var $total = navigation.find('li').length;
+    var $current = index+1;
+    var $percent = ($current/$total) * 100;
+    $('#rootwizard .progress-bar').css({width:$percent+'%'});
+  }});
+
+ $('.tab-pane select').multiselect();
+
+
+});

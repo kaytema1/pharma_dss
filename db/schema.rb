@@ -11,41 +11,97 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170716155509) do
+ActiveRecord::Schema.define(version: 20170723235357) do
+
+  create_table "Disease_Conditions_Patient_Visits", id: false, force: true do |t|
+    t.integer "patient_visit_id",     null: false
+    t.integer "disease_condition_id", null: false
+  end
+
+  create_table "Doctors_Patient_Visits", id: false, force: true do |t|
+    t.integer "patient_visit_id", null: false
+    t.integer "doctor_id",        null: false
+  end
+
+  add_index "Doctors_Patient_Visits", ["doctor_id", "patient_visit_id"], name: "index_Doctors_PatientVisits_on_doctor_id_and_patient_visit_id"
+  add_index "Doctors_Patient_Visits", ["patient_visit_id", "doctor_id"], name: "index_Doctors_PatientVisits_on_patient_visit_id_and_doctor_id"
+
+  create_table "Doctors_Prescriptions", id: false, force: true do |t|
+    t.integer "prescription_id", null: false
+    t.integer "doctor_id",       null: false
+  end
+
+  add_index "Doctors_Prescriptions", ["doctor_id", "prescription_id"], name: "index_Doctors_Prescriptions_on_doctor_id_and_prescription_id"
+  add_index "Doctors_Prescriptions", ["prescription_id", "doctor_id"], name: "index_Doctors_Prescriptions_on_prescription_id_and_doctor_id"
+
+  create_table "Drugs_Prescriptions", id: false, force: true do |t|
+    t.integer "prescription_id", null: false
+    t.integer "drug_id",         null: false
+  end
+
+  add_index "Drugs_Prescriptions", ["drug_id", "prescription_id"], name: "index_Drugs_Prescriptions_on_drug_id_and_prescription_id"
+  add_index "Drugs_Prescriptions", ["prescription_id", "drug_id"], name: "index_Drugs_Prescriptions_on_prescription_id_and_drug_id"
+
+  create_table "PatientVisits_Responses", id: false, force: true do |t|
+    t.integer "patient_visit_id", null: false
+    t.integer "response_id",      null: false
+  end
+
+  create_table "Patient_Visits_Questions", id: false, force: true do |t|
+    t.integer "patient_visit_id", null: false
+    t.integer "question_id",      null: false
+  end
+
+  create_table "active_admin_comments", force: true do |t|
+    t.string   "namespace"
+    t.text     "body"
+    t.string   "resource_id",   null: false
+    t.string   "resource_type", null: false
+    t.integer  "author_id"
+    t.string   "author_type"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "active_admin_comments", ["author_type", "author_id"], name: "index_active_admin_comments_on_author_type_and_author_id"
+  add_index "active_admin_comments", ["namespace"], name: "index_active_admin_comments_on_namespace"
+  add_index "active_admin_comments", ["resource_type", "resource_id"], name: "index_active_admin_comments_on_resource_type_and_resource_id"
 
   create_table "choices", force: true do |t|
     t.string   "option"
-    t.integer  "question_id"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
-
-  add_index "choices", ["question_id"], name: "index_choices_on_question_id"
 
   create_table "disease_conditions", force: true do |t|
     t.string   "icd_10"
-    t.integer  "patient_visit_id"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.string   "name"
   end
-
-  add_index "disease_conditions", ["patient_visit_id"], name: "index_disease_conditions_on_patient_visit_id"
 
   create_table "doctors", force: true do |t|
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.string   "name"
   end
 
   create_table "drugs", force: true do |t|
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.string   "name"
   end
 
   create_table "patient_visits", force: true do |t|
     t.text     "summary"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "patient_id"
+    t.integer  "prescription_id"
   end
+
+  add_index "patient_visits", ["patient_id"], name: "index_patient_visits_on_patient_id"
+  add_index "patient_visits", ["prescription_id"], name: "index_patient_visits_on_prescription_id"
 
   create_table "patients", force: true do |t|
     t.string   "folder_number"
@@ -62,23 +118,25 @@ ActiveRecord::Schema.define(version: 20170716155509) do
   add_index "patients", ["patient_visit_id"], name: "index_patients_on_patient_visit_id"
 
   create_table "prescriptions", force: true do |t|
-    t.integer  "doctor_id"
     t.integer  "patient_visit_id"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
 
-  add_index "prescriptions", ["doctor_id"], name: "index_prescriptions_on_doctor_id"
   add_index "prescriptions", ["patient_visit_id"], name: "index_prescriptions_on_patient_visit_id"
 
   create_table "questions", force: true do |t|
-    t.text     "text"
-    t.integer  "patient_visit_id"
+    t.text     "question"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
 
-  add_index "questions", ["patient_visit_id"], name: "index_questions_on_patient_visit_id"
+  create_table "responses", force: true do |t|
+    t.string   "response"
+    t.text     "comment"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
 
   create_table "users", force: true do |t|
     t.string   "email",                  default: "", null: false
@@ -94,11 +152,9 @@ ActiveRecord::Schema.define(version: 20170716155509) do
     t.datetime "created_at",                          null: false
     t.datetime "updated_at",                          null: false
     t.string   "username"
-    t.integer  "patient_visit_id"
   end
 
   add_index "users", ["email"], name: "index_users_on_email", unique: true
-  add_index "users", ["patient_visit_id"], name: "index_users_on_patient_visit_id"
   add_index "users", ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   add_index "users", ["username"], name: "index_users_on_username", unique: true
 

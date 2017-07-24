@@ -2,4 +2,14 @@
 <div class="page-header">
   <h1><%=t '.title', :default => [:'helpers.titles.edit', 'Edit %{model}'], :model => Patient %></h1>
 </div>
-<%= render :partial => 'form' %>
+<div class="mdl-tabs mdl-js-tabs mdl-js-ripple-effect">
+  <div class="mdl-tabs__tab-bar">
+      <a href="#edit-panel" class="mdl-tabs__tab is-active"><%=t '.title', :default => [:'helpers.titles.new', 'New %{model}'], :model => Patient %></a>
+      <a href="#all-panel" class="mdl-tabs__tab">Existing Patient</a>
+  </div>
+
+  <div class="mdl-tabs__panel is-active" id="edit-panel">
+    <%= render :partial => 'form' %>
+  </div>
+
+</div>

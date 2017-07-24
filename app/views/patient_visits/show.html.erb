@@ -1,24 +1,241 @@
 <%- model_class = PatientVisit -%>
-<div class="page-header">
-  <h1><%=t '.title', :default => PatientVisit %></h1>
+
+
+
+<div class="date_top_left clearfix">
+  <%= Date.today.to_formatted_s(:long) %>
+</div>
+<div class="col-md-12">
+  <div class="grey_content col-md-offset-2 col-md-8">
+
+    <div class="person_icon glyphicon glyphicon-user col-md-2 pull-left"></div>
+
+    <div class="user_info col-md-8">
+      <div class="line_item"><%= @patient.folder_number %> </div>
+      <div class="line_item"><%= @patient.first_name %> <%= @patient.last_name %></div>
+      <div class="line_item"><%= age(Date.strptime(@patient.date_of_birth, '%m/%d/%Y'))  %> Years  <%= glyph 'certificate' %>  <%= @patient.gender %></div>
+    </div>
+
+    <div class="play_button glyphicon glyphicon-play-circle col-md-2 pull-right"></div>
+  </div>
 </div>
 
-<div class="fieldset">
-  <dl>
-      <dt class="label label-default"><%= model_class.human_attribute_name(:summary) %></dt>
-      <dd><pre class="prettyprint"><%= @patient_visit.summary %></pre></dd>
-  </dl>
+<%= form_for @patient_visit, :html => { :class => 'form-horizontal' } do |f| %>
+<div id="rootwizard" class="col-md-12">
+  <div class="navbar">
+
+    <div class="col-md-12 mdl-tabs mdl-js-tabs mdl-js-ripple-effect">
+      <ul class="mdl-tabs__tab-bar">
+        <!--li><a href="#tab1" data-toggle="tab" class="mdl-tabs__tab">CLINICAL INFORMATION</a></li-->
+        <li><a href="#tab2" data-toggle="tab" class="mdl-tabs__tab">DOCTOR</a></li>
+        <li><a href="#tab3" data-toggle="tab" class="mdl-tabs__tab">DISEASE CONDITIONS</a></li>
+        <li><a href="#tab4" data-toggle="tab" class="mdl-tabs__tab">PRESCRIPTION</a></li>
+        <li><a href="#tab5" data-toggle="tab" class="mdl-tabs__tab">QUESTIONNAIRE</a></li>
+        <li><a href="#tab6" data-toggle="tab" class="mdl-tabs__tab">SUMMARY</a></li>
+
+      </ul>
+
+    </div>
+    <div id="bar" class="progress">
+      <div class="progress-bar" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width: 0%;"></div>
+    </div>
+
+    <div class="tab-content">
+      <!--div class="tab-pane" id="tab1">
+      <div class="col-md-12">
+      <div style="text-align: center;" class="col-md-8 col-md-offset-2">
+      <a href="#" class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored">
+      RETRIEVE INFORMATION FROM CDSS
+    </a>
+
+    <br/ >
+    <br/ >
+
+
+    <a href="#" class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored">
+    ENTER CLINICAL DIAGNOSIS
+  </a>
+
+  <br />
+
+  <br/ >
+  <a href="#" class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored">
+  SHOW PATIENT PRESCRIPTION
+</a>
+<br />
+
+<br/ >
+
+</div>
+</div>
+</div--->
+
+
+<div class="tab-pane" id="tab2">
+  <div class="col-md-12">
+    <div class="form-group">
+      <%= f.label 'Doctors', :class => 'control-label col-md-2' %>
+      <div class="col-md-10">
+        <%= f.collection_select 'doctor_ids', Doctor.all, :id, :name,  { :include_blank => "Select Option"}, {:multiple => true} %>
+      </div>
+    </div>
+  </div>
 </div>
 
-<div class="form-group">
+<div class="tab-pane" id="tab3">
+  <div class="col-md-12">
+    <div class="form-group">
+      <%= f.label 'Disease Conditions', :class => 'control-label col-md-2' %>
+      <div class="col-md-10">
+        <%= f.collection_select 'disease_condition_ids', DiseaseCondition.all, :id, :name, { :include_blank => "Select Option"}, {:multiple => true} %>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="tab-pane" id="tab4">
+  <div class="col-md-12">
+    <div class="form-group">
+
+      <div class="col-md-12">
+        <% @prescription =  Prescription.find(@patient_visit.prescription_id)%>
+        <table class="mdl-data-table mdl-js-data-table  mdl-shadow--2dp">
+          <thead>
+            <tr>
+              <th>
+                PRESCRIPTION
+              </th>
+            </tr>
+
+          </thead>
+          <tbody>
+            <% @prescription.drugs.each do |drug| %>
+
+            <tr>
+              <td class="mdl-data-table__cell--non-numeric">
+                <% this_drug = Drug.find(drug.id) %>
+                <%= this_drug.name %>
+              </td>
+            </tr>
+            <% end %>
+          </tbody>
+        </table>
+        <% f.collection_select :prescription_id, Prescription.all, :id, :id, :class => 'text-field form-control', :prompt => 'Select' %>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="tab-pane" id="tab5">
+  <div class="col-md-4">
+    <table class="mdl-data-table mdl-js-data-table  mdl-shadow--2dp">
+      <thead>
+        <tr>
+          <th>
+            QUESTIONS
+          </th>
+        </tr>
+      </thead>
+      <tbody>
+        <% @patient_visit_questions = @patient_visit.questions %>
+
+        <% @patient_visit_questions.each do |question| %>
+        <tr>
+          <td>
+            <%= question.id %>) <%= question.question %> <br />
+          </td>
+        </tr>
+
+        <% end %>
+      </tbody>
+    </table>
+
+
+  </div>
+  <div class="col-md-3 pull-right">
+    <table class="mdl-data-table mdl-js-data-table  mdl-shadow--2dp">
+      <thead>
+        <tr>
+          <th>
+            RESPONSES
+          </th>
+        </tr>
+      </thead>
+      <tbody>
+        <% @patient_visit_responses = @patient_visit.responses %>
+        
+        <% @patient_visit_responses.each do |response| %>
+        <tr>
+          <td>
+             <%= response.response %> <br />
+          </td>
+        </tr>
+
+        <% end %>
+      </tbody>
+    </table>
+
+
+  </div>
+</div>
+<div class="tab-pane" id="tab6">
+  <div class="col-md-12">
+
+    <div class="form-group">
+      <%= f.label :summary, :class => 'control-label col-md-2' %>
+      <div class="col-md-10">
+        <%= f.text_area :summary, :class => 'text-field form-control' %>
+      </div>
+    </div>
+    <br />
+    <br />
+    <br />
+    <br />
+
+    <div class="form-group">
+      <div style='text-align:center' class='col-md-12'>
+        <%= f.submit "SAVE PATIENT VISIT", :class => 'mdl-button mdl-js-button mdl-button--raised mdl-button--colored' %>
+
+      </div>
+    </div>
+  </div>
+</div>
+<div class="clearfix">
+</div>
+<ul class="pager wizard">
+  <li class="previous first" style="display:none;"><a href="#">First</a></li>
+  <li class="previous">
+    <button type="button" class="mdl-button mdl-js-button mdl-button--fab mdl-button--colored">
+      <i class="material-icons">arrow_back</i>
+    </button>
+  </li>
+  <li class="next last" style="display:none;"><a href="#">Last</a></li>
+  <li class="next">
+    <button type="button" class="mdl-button mdl-js-button mdl-button--fab mdl-button--colored">
+      <i class="material-icons">arrow_forward</i>
+    </button>
+
+  </li>
+</ul>
+</div>
+</div>
+</div>
+
+
+
+<% end %>
+
+
+
+
+
+
+<div class="form-group hide">
   <%= link_to t('.back', :default => t("helpers.links.back")),
-              patient_visits_path, :class => 'btn btn-default'  %>
+  patient_visits_path, :class => 'btn btn-default'  %>
   <%= link_to t('.edit', :default => t("helpers.links.edit")),
-              edit_patient_visit_path(@patient_visit), :class => 'btn btn-default' %>
+  edit_patient_visit_path(@patient_visit), :class => 'btn btn-default' %>
   <%= link_to t('.destroy', :default => t("helpers.links.destroy")),
-              patient_visit_path(@patient_visit),
-              :method => 'delete',
-              :data => { :confirm => t('.confirm', :default => t("helpers.links.confirm", :default => 'Are you sure?')) },
-              :class => 'btn btn-danger' %>
+  patient_visit_path(@patient_visit),
+  :method => 'delete',
+  :data => { :confirm => t('.confirm', :default => t("helpers.links.confirm", :default => 'Are you sure?')) },
+  :class => 'btn btn-danger' %>
 </div>
-

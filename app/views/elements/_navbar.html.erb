@@ -1,35 +1,28 @@
-<nav class="navbar navbar-default" role="navigation">
-  <!-- Brand and toggle get grouped for better mobile display -->
-  <div class="navbar-header">
-    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar-collapse-1">
-      <span class="sr-only">Toggle navigation</span>
-      <span class="icon-bar"></span>
-      <span class="icon-bar"></span>
-      <span class="icon-bar"></span>
-    </button>
-    <%= link_to "My Application", defined?(root_path) ? root_path : "#", class: "navbar-brand" %>
-  </div>
 
-  <!-- Collect the nav links, forms, and other content for toggling -->
-  <div class="collapse navbar-collapse" id="navbar-collapse-1">
-    <ul class="nav navbar-nav">
-    </ul>
-    <ul class="nav navbar-nav navbar-right">
-      <% if defined?(Devise) %>
-        <% if user_signed_in? %>
-          <li class="dropdown">
-            <a href="#" class="dropdown-toggle" data-toggle="dropdown">Account <b class="caret"></b></a>
-            <ul class="dropdown-menu">
-              <li><%= link_to "Edit Account", edit_user_registration_path %></li>
-              <li class="divider"></li>
-              <li><%= link_to "Sign Out", destroy_user_session_path, method: :delete %></li>
-            </ul>
-          </li>
-        <% else %>
-          <li><%= link_to "Login", new_user_session_path %></li>
-          <li><%= link_to "Sign Up", new_user_registration_path %></li>
-        <% end %>
-      <% end %>
-    </ul>
-  </div><!-- /.navbar-collapse -->
-</nav>
+<header class="demo-header mdl-layout__header mdl-layout__header--scroll mdl-color--grey-100 mdl-color-text--grey-800">
+  <div class="mdl-layout__header-row">
+    <span class="mdl-layout-title"><%= link_to "PHARMACY DECISION SUPPORT SYSTEM", root_path %> </span>
+    <div class="mdl-layout-spacer"></div>
+
+
+      <div class="collapse navbar-collapse" id="navbar-collapse-1">
+          <button id="demo-menu-lower-right"
+              class="mdl-button mdl-js-button mdl-button--icon">
+                <i class="material-icons">more_vert</i>
+          </button>
+          <ul class="mdl-menu mdl-menu--bottom-right mdl-js-menu mdl-js-ripple-effect"
+              for="demo-menu-lower-right">
+              <% if defined?(Devise) %>
+                <% if user_signed_in? %>
+                  <li class="mdl-menu__item"><%= link_to "Edit Account", edit_user_registration_path %></li>
+                  <li class="divider"></li>
+                  <li class="mdl-menu__item"><%= link_to "Sign Out", destroy_user_session_path, method: :delete %></li>
+                <% else %>
+                  <li class="mdl-menu__item"><%= link_to "Login", new_user_session_path %></li>
+                  <li class="mdl-menu__item"><%= link_to "Sign Up", new_user_registration_path %></li>
+                <% end %>
+              <% end %>
+          </ul>
+    </div>
+  </div>
+</header>

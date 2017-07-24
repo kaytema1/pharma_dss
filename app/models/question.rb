@@ -1,4 +1,3 @@
 class Question < ActiveRecord::Base
-  belongs_to :patient_visit
-  has_many :choices
+  has_and_belongs_to_many :patient_visits
 end

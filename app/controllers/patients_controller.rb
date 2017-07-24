@@ -3,9 +3,10 @@ class PatientsController < ApplicationController
 
   # GET /patients
   # GET /patients.json
-  def index
-    @patients = Patient.all
-  end
+  #  def index
+  #    @patient = Patient.new
+  #    @patients = Patient.all
+  #  end
 
   # GET /patients/1
   # GET /patients/1.json
@@ -15,26 +16,32 @@ class PatientsController < ApplicationController
   # GET /patients/new
   def new
     @patient = Patient.new
+    @patients = Patient.all
+    @patient_visit = PatientVisit.new
   end
 
   # GET /patients/1/edit
   def edit
   end
 
+  def index
+      redirect_to controller: 'patients', action: 'new', anchor: 'all-panel'
+  end
+
   # POST /patients
   # POST /patients.json
   def create
     @patient = Patient.new(patient_params)
+    @patients = Patient.all
 
-    respond_to do |format|
       if @patient.save
-        format.html { redirect_to @patient, notice: 'Patient was successfully created.' }
-        format.json { render :show, status: :created, location: @patient }
+        redirect_to controller: 'patients', action: 'new', anchor: 'all-panel'
+        flash[:notice] = "Patient was Successfully Created!"
       else
-        format.html { render :new }
-        format.json { render json: @patient.errors, status: :unprocessable_entity }
+        flash[:error] = @patient.errors.full_messages.to_sentence
+        render :new
+
       end
-    end
   end
 
   # PATCH/PUT /patients/1
@@ -56,7 +63,7 @@ class PatientsController < ApplicationController
   def destroy
     @patient.destroy
     respond_to do |format|
-      format.html { redirect_to patients_url, notice: 'Patient was successfully destroyed.' }
+      format.html { redirect_to new_patient_url, notice: 'Patient was successfully destroyed.' }
       format.json { head :no_content }
     end
   end
@@ -69,6 +76,6 @@ class PatientsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def patient_params
-      params.require(:patient).permit(:folder_number, :first_name, :last_name, :date_of_birth, :gender, :address, :patient_visit_id)
+      params.require(:patient).permit(:folder_number, :first_name, :last_name, :date_of_birth, :gender, :address)
     end
 end
