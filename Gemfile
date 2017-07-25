@@ -73,3 +73,5 @@ gem 'jquery-datatables'
 gem 'material_icons'
 
 gem 'bootstrap-multiselect-rails'
+
+ruby "2.3.1"
