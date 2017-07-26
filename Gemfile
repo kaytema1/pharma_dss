@@ -11,6 +11,7 @@ end
 group :production do
   gem 'pg'
   gem 'rails_12factor'
+  gem 'puma'
 end
 # Use SCSS for stylesheets
 gem 'sass-rails', '~> 4.0.3'
@@ -74,4 +75,4 @@ gem 'material_icons'
 
 gem 'bootstrap-multiselect-rails'
 
-ruby "2.3.1"
+ruby "2.3.0"
